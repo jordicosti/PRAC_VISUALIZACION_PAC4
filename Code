@@ -1,0 +1,148 @@
+---
+title: "PAC2JORDICOSTILLAVISUALITZACIO"
+author: "JORDI COSTILLA"
+date: "21/4/2020"
+output:
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r eval=FALSE, warning=FALSE, message=FALSE}
+library(readr)
+library(caret)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+
+```
+
+Agafarem les dades de Nord d'africa. 
+
+```{r message= FALSE, warning=FALSE}
+data<-read.csv("C:/Users/jordi/Desktop/UOC/2020/VISUALITZACIO DE DADES/PACVISUALTITZACIO.csv", header=T, sep=",")
+
+data
+
+```
+Mirarem si hi ha presència de valors buits, però si que n'hi haurà a variables que no en parlarem, ja que no sabem com representar-les... 
+
+```{r message= FALSE, warning=FALSE}
+str(data)
+
+```
+
+```{r }
+##dades buides: 
+
+colSums(is.na(data))
+
+```
+
+```{r message= FALSE, warning=FALSE}
+summary(data$Con)
+
+```
+
+Podem veure mitjançant el següent gràfic de freqüències el pas anterior, però visualitzant-ho millor. 
+
+
+```{r message= FALSE, warning=FALSE}
+ggplot(data, aes(x=Con)) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+Podem veure que de les dades que tenim la que veiem més lògica de representar son els paisos amb més conflictes, llavors podem veure, que és una cosa que no ens sorpren, que Siria, eés la que en presenta més. 
+
+```{r message= FALSE, warning=FALSE}
+ggplot(data, aes(x=Contp)) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+Tambe ens interessa saber el tipus de conflictes, per el que uncop representats, ho mirarem segons els paisos pera  aprende una miqueta com son a cada País: 
+
+```{r message= FALSE, warning=FALSE}
+ggplot(data, aes(x=Con, fill = Contp)) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+Com era per esperar, podem veure que Siria i Libia son els que en presenten més de internacionals. Per el que fa a Guvernamentals, també Siria, com bé podem veure, és la que en té més. Llavors, ho mirarem 
+
+Llavors mirem segons el "Status", que podem veure que guanyen els signats/posat d'acord entre tots. 
+
+```{r message= FALSE, warning=FALSE}
+ggplot(data, aes(x=Status, fill = Contp)) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+Després mirem l'etapa en la que es troba el conflicte i podem veure que; 
+
+
+```{r message= FALSE, warning=FALSE}
+ggplot(data, aes(x=Stage, fill = Contp)) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+Els que predominen son els de "Alto el Fuego" i molts d'ells son Internacionals, que per el que entenem, ja que no apareix a la PDF de la llegenda de cada variable, i per el que sabem, són en els que han participat més d'un país. 
+
+
+```{r message= FALSE, warning=FALSE}
+ggplot(data, aes(x=StageSub, fill = Stage)) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+```{r message= FALSE, warning=FALSE}
+ggplot(data, aes(x="", y=Contp, fill=Contp)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0)
+```
+
+Podem veure també que de tots els conflictes, els que ens predominen en el dataframesón els internacionals, que ocupen més del 50%!. 
+Un altre dada molt interessant a comentar, és la importància que tenen els acords dels conflictes en referència als nens, els drets dels nens, els joves o similar. Els que no en fan referència són aquests que representen el grup "0", el grup "1" hi ha només menció de nens o drets dels nens, de manera purament retorica, llavors quan anem augmentant els grups fins arribar al 3 cada cop és fa més important podriem dir; 
+
+
+```{r message= FALSE, warning=FALSE}
+ggplot(data, aes(x=GCh)) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+Podem veure que de tots els acords, no s'en parla quasi bé rés... Ho veurem per els paísos i després per el tipus de conflicte: 
+
+```{r message= FALSE, warning=FALSE}
+
+data1 <- data
+data1$GCh <- as.factor(data1$GCh)
+ggplot(data1, aes(x=Con, fill = GCh )) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+Podem veure que a Syria si que s'en fa menció, pero quasi rés degut a la quantitat de conflictes que presenta... 
+
+```{r message= FALSE, warning=FALSE}
+ggplot(data, aes(x=GCh, fill = Contp )) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+```{r message= FALSE, warning=FALSE}
+
+data2 <- data
+data2$ConRen <- as.factor(data2$ConRen)
+ggplot(data2, aes(x=Con, fill = ConRen )) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
