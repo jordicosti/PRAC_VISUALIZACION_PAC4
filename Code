@@ -3,8 +3,9 @@ title: "PAC2JORDICOSTILLAVISUALITZACIO"
 author: "JORDI COSTILLA"
 date: "21/4/2020"
 output:
-  html_document: default
   word_document: default
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -50,12 +51,13 @@ summary(data$Con)
 
 Podem veure mitjançant el següent gràfic de freqüències el pas anterior, però visualitzant-ho millor. 
 
-
 ```{r message= FALSE, warning=FALSE}
+library(ggplot2)
 ggplot(data, aes(x=Con)) + 
   geom_bar(stat="count") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
+
 
 Podem veure que de les dades que tenim la que veiem més lògica de representar son els paisos amb més conflictes, llavors podem veure, que és una cosa que no ens sorpren, que Siria, eés la que en presenta més. 
 
@@ -142,6 +144,24 @@ ggplot(data, aes(x=GCh, fill = Contp )) +
 data2 <- data
 data2$ConRen <- as.factor(data2$ConRen)
 ggplot(data2, aes(x=Con, fill = ConRen )) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+```{r message= FALSE, warning=FALSE}
+
+ggplot(data, aes(x=SsrArm)) + 
+  geom_bar(stat="count") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+```{r message= FALSE, warning=FALSE}
+
+data2 <- data
+data2$SsrArm <- as.factor(data2$SsrArm)
+ggplot(data2, aes(x=Con, fill = SsrArm )) + 
   geom_bar(stat="count") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
